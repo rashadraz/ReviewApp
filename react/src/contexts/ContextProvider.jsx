@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const StateContext = createContext({
   currentUser: {},
   userToken: null,
-  surveys:[],
+  surveys: [],
   setCurrentUser: () => {},
   setUserToken: () => {},
 });
@@ -11,7 +11,8 @@ const StateContext = createContext({
 const tmpSurveys = [
   {
     id: 1,
-    image_url: "https://images.unsplash.com/photo-1543512214-318c7553f230?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2R1Y3R8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60",
+    image_url:
+      "https://images.unsplash.com/photo-1543512214-318c7553f230?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2R1Y3R8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60",
     title: "TheCodeholic YouTube channel",
     slug: "thecodeholic-youtube-channel",
     status: true,
@@ -159,7 +160,8 @@ const tmpSurveys = [
   },
   {
     id: 2,
-    image_url: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60",
+    image_url:
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60",
     title: "React",
     slug: "react",
     status: true,
@@ -172,7 +174,8 @@ const tmpSurveys = [
   },
   {
     id: 3,
-    image_url: "https://images.unsplash.com/photo-1584735175315-9d5df23860e6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODF8fHByb2R1Y3R8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60",
+    image_url:
+      "https://images.unsplash.com/photo-1584735175315-9d5df23860e6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODF8fHByb2R1Y3R8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60",
     title: "Laravel 9",
     slug: "laravel-9",
     status: true,
@@ -186,12 +189,20 @@ const tmpSurveys = [
 ];
 
 export const ContextProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState({
-    name: "Tom Cook",
-    email: "tom@example.com",
-  });
-  const [userToken, setUserToken] = useState("1234");
-  const [surveys , setSurveys] = useState(tmpSurveys)
+  const [currentUser, setCurrentUser] = useState({});
+  const [userToken, _setUserToken] = useState(
+    localStorage.getItem("TOKEN") || ""
+  );
+  const [surveys, setSurveys] = useState(tmpSurveys);
+
+  const setUserToken = (token) => {
+    if (token) {
+      localStorage.setItem("TOKEN", token);
+    } else {
+      localStorage.removeItem("TOKEN");
+    }
+    _setUserToken(token);
+  };
 
   return (
     <StateContext.Provider
@@ -200,7 +211,7 @@ export const ContextProvider = ({ children }) => {
         setCurrentUser,
         userToken,
         setUserToken,
-        surveys
+        surveys,
       }}
     >
       {children}
