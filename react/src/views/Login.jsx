@@ -22,11 +22,11 @@ export default function Login() {
       })
       .catch((error) => {
         if (error.response) {
-          const finalErrors = Object.values(error.response.data.errors).reduce(
+          const finalErrors = Object.values(error.response.data.error).reduce(
             (accum, next) => [...accum, ...next],
             []
           );
-          setError({ __html: finalErrors.join("<br>") });
+          setError({ __html: finalErrors.join("") });
         }
         console.error(error);
       });
@@ -44,6 +44,7 @@ export default function Login() {
             dangerouslySetInnerHTML={error}
           ></div>
         )}
+
         <form
           className="space-y-6"
           action="#"
