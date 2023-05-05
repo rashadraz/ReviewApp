@@ -4,7 +4,7 @@ import { LinkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import TButton from "../components/core/TButton";
 import axiosClient from "../axios.js";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-// import SurveyQuestions from "../components/SurveyQuestions";
+import SurveyQuestion from "../components/SurveyQuestion";
 // import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -56,6 +56,21 @@ function SurveyView() {
 
     console.log("On ImageChoose");
   };
+
+  const addQuestion = () => {
+    survey.questions.push({
+      id: uuidv4(),
+      type: "text",
+      question: "",
+      description: "",
+      data: {},
+    });
+    setSurvey({ ...survey });
+  };
+
+  function onSurveyUpdate(survey){
+    setSurvey({...survey});
+  }
   return (
     <PageComponent title="Create New Survey">
       <form action="#" method="POST" onSubmit={onSubmit}>
@@ -190,15 +205,14 @@ function SurveyView() {
 
             <button
               type="button"
-              //   onClick={addQuestion}
+                onClick={addQuestion}
             >
               Add question
             </button>
-            {/* <SurveyQuestions
-                questions={survey.questions}
-                onQuestionsUpdate={onQuestionsUpdate
-                }
-              /> */}
+            <SurveyQuestion
+              survey={survey}
+              onSurveyUpdate={onSurveyUpdate}
+            />
           </div>
           <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
             <TButton>Save</TButton>

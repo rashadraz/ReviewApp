@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Survey;
+use App\Enums\QuestionTypeEnum;
 use App\Http\Requests\StoreSurveyRequest;
 use App\Http\Requests\UpdateSurveyRequest;
 use App\Http\Resources\SurveyResource;
+use App\Models\Survey;
 use App\Models\SurveyQuestion;
+use function GuzzleHttp\json_encode;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\Request;
 use illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
-
-use function GuzzleHttp\json_encode;
+use Symfony\Component\HttpFoundation\Request;
 
 class SurveyController extends Controller
 {
@@ -33,8 +32,6 @@ class SurveyController extends Controller
 
         );
     }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -110,10 +107,10 @@ class SurveyController extends Controller
         //find questions to add
         $toAdd = array_diff($newIds, $existingIds);
 
-        //Delete questions by $toDelete Array 
+        //Delete questions by $toDelete Array
         SurveyQuestion::destroy($toDelete);
 
-        //create new questions 
+        //create new questions
         foreach ($data['questions'] as $question) {
             if (in_array($question['id'], $toAdd)) {
                 $question['survey_id'] = $survey->id;
@@ -156,7 +153,6 @@ class SurveyController extends Controller
         return response('', 204);
     }
 
-
     /**
      * Save image in local file system and return saved image path
      *
@@ -176,16 +172,16 @@ class SurveyController extends Controller
 
             //check if file is an image
             if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
-                throw new \Exception('Invalid Image Type');
+                throw new \Exception ('Invalid Image Type');
             }
             $image = str_replace(' ', '+', $image);
             $image = base64_decode($image);
 
             if ($image === false) {
-                throw new \Exception('Base64_decode failed');
+                throw new \Exception ('Base64_decode failed');
             }
         } else {
-            throw new \Exception('Did not match data URI with image Data');
+            throw new \Exception ('Did not match data URI with image Data');
         }
 
         $dir = 'images/';
@@ -215,7 +211,13 @@ class SurveyController extends Controller
         }
         $validator = Validator::make($data, [
             'question' => 'required|string',
-            'type' => ['required', new Enum(QuestionTypeEnum::class)],
+            'type' => ['required', Rule::in([
+                QuestionTypeEnum::TEXT->value,
+                QuestionTypeEnum::TEXTAREA->value,
+                QuestionTypeEnum::SELECT->value,
+                QuestionTypeEnum::RADIO->value,
+                QuestionTypeEnum::CHECKBOX->value,
+            ])],
             'description' => 'nullable|string',
             'data' => 'present',
         ]);
@@ -231,7 +233,13 @@ class SurveyController extends Controller
         $validator = Validator::make($data, [
             'id' => 'exists:App\Models\SurveyQuestion,id',
             'question' => 'required|string',
-            'type' => ['required', new Enum(QuestionTypeEnum::class)],
+            'type' => ['required', Rule::in([
+                QuestionTypeEnum::TEXT->value,
+                QuestionTypeEnum::TEXTAREA->value,
+                QuestionTypeEnum::SELECT->value,
+                QuestionTypeEnum::RADIO->value,
+                QuestionTypeEnum::CHECKBOX->value,
+            ])],
             'description' => 'nullable|string',
             'data' => 'present',
         ]);

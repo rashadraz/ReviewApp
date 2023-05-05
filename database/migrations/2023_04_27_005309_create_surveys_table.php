@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            // $table->foreignId(\App\Models\User::class, 'user_id');
+            // $table->foreignId('user_id')->constrained('users');
+            $table->foreignIdFor(\App\Models\User::class, 'user_id');
             $table->string('image', 255)->nullable();
             $table->string('title', 1000);
             $table->string('slug', 1000);
