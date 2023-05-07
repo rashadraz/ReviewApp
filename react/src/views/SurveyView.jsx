@@ -5,7 +5,7 @@ import TButton from "../components/core/TButton";
 import axiosClient from "../axios.js";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import SurveyQuestion from "../components/SurveyQuestion";
-// import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 
@@ -68,8 +68,11 @@ function SurveyView() {
     setSurvey({ ...survey });
   };
 
-  function onSurveyUpdate(survey){
-    setSurvey({...survey});
+  function onQuestionUpdate(questions) {
+    setSurvey({
+      ...survey,
+      questions,
+    });
   }
   return (
     <PageComponent title="Create New Survey">
@@ -143,7 +146,7 @@ function SurveyView() {
               >
                 Description
               </label>
-              {/* <pre>{ JSON.stringify(survey, undefined, 2) }</pre> */}
+
               <textarea
                 name="description"
                 id="description"
@@ -203,15 +206,12 @@ function SurveyView() {
             </div>
             {/*Active*/}
 
-            <button
-              type="button"
-                onClick={addQuestion}
-            >
+            <button type="button" onClick={addQuestion}>
               Add question
             </button>
             <SurveyQuestion
-              survey={survey}
-              onSurveyUpdate={onSurveyUpdate}
+              questions={survey.questions}
+              onQuestionUpdate={onQuestionUpdate}
             />
           </div>
           <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">

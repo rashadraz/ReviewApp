@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -24,13 +24,20 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function DefaulLayout() {
+export default function DefaultLayout() {
   const { currentUser, userToken, setCurrentUser, setUserToken } =
     useStateContext();
 
   if (!userToken) {
     return <Navigate to="login" />;
   }
+
+  useEffect(()=> {
+    axiosClient.get('/me')
+      .then(({data})=> {
+        setCurrentUser(data);
+      })
+  },[])
   const logout = (ev) => {
     ev.preventDefault();
     axiosClient.post("/logout").then((res) => {

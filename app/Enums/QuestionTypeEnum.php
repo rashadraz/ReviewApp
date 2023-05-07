@@ -1,14 +1,12 @@
-<?php 
+<?php
 
 namespace App\Enums;
 
-
 enum QuestionTypeEnum: string
-
 {
-    case TEXT = 'text';
-    case TEXTAREA = 'textarea';
-    case SELECT = 'select';
-    case RADIO = 'radio';
-    case CHECKBOX = 'checkbox';
+    case Text = 'text';
+    case Textarea = 'textarea';
+    case Select = 'select';
+    case Radio = 'radio';
+    case Checkbox = 'checkbox';
 }
