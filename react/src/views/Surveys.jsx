@@ -3,13 +3,23 @@ import PageComponent from "../components/PageComponent";
 import SurveyListItem from "../components/SurveyListItem";
 import TButton from "../components/core/TButton";
 import { useStateContext } from "../contexts/ContextProvider";
+import { useEffect, useState } from "react";
+import axiosClient from "../axios.js";
 
 function Surveys() {
   const { surveys } = useStateContext();
-  console.log(surveys);
+  // const [surveys , setSurveys] = useState([]);
   const onDeleteClick = () => {
     console.log("On Delete Click");
   };
+
+  useEffect(()=>{
+    axiosClient.get('/survey')
+    .then(({data})=> {
+      debugger;
+
+    })
+  })
   return (
     <PageComponent
       title={"Surveys"}
