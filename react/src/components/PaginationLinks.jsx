@@ -1,5 +1,3 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-
 function PaginationLinks({ meta, onPageClick }) {
   function onClick(ev, link) {
     ev.preventDefault();
@@ -35,28 +33,31 @@ function PaginationLinks({ meta, onPageClick }) {
           </p>
         </div>
         <div>
-          <nav
-            className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-            aria-label="Pagination"
-          >
-            {meta.links &&
-              meta.links.map((link, ind) => (
-                <a
-                  href="#"
-                  onClick={(ev) => onClick(ev, link)}
-                  aria-current="page"
-                  className={
-                    "relative z-10 inline-flex items-center border   px-4 py-2 text-sm font-medium focus:z-20 hover:bg-gray-50 " +
-                    (ind === 0 ? "rounded-l-md " : "") +
-                    (ind === meta.links.length - 1 ? "rounded-r-md " : "") +
-                    (link.active
-                      ? "border-indigo-500 bg-indigo-50 text-indigo-600 "
-                      : "")
-                  }
-                  dangerouslySetInnerHTML={{ __html: link.label }}
-                ></a>
-              ))}
-          </nav>
+          {meta.total >= 10 && (
+            <nav
+              className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+              aria-label="Pagination"
+            >
+              {meta.links &&
+                meta.links.map((link, ind) => (
+                  <a
+                    href="#"
+                    onClick={(ev) => onClick(ev, link)}
+                    key={ind}
+                    aria-current="page"
+                    className={
+                      "relative z-10 inline-flex items-center border   px-4 py-2 text-sm font-medium focus:z-20 hover:bg-gray-50 " +
+                      (ind === 0 ? "rounded-l-md " : "") +
+                      (ind === meta.links.length - 1 ? "rounded-r-md " : "") +
+                      (link.active
+                        ? "border-indigo-500 bg-indigo-50 text-indigo-600 "
+                        : "")
+                    }
+                    dangerouslySetInnerHTML={{ __html: link.label }}
+                  ></a>
+                ))}
+            </nav>
+          )}
         </div>
       </div>
     </div>
