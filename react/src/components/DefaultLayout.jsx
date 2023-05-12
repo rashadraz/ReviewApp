@@ -9,6 +9,7 @@ import {
 import { NavLink, Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
+import Toast from "./Toast";
 
 const navigation = [
   { name: "Dashboard", to: "/" },
@@ -32,12 +33,11 @@ export default function DefaultLayout() {
     return <Navigate to="login" />;
   }
 
-  useEffect(()=> {
-    axiosClient.get('/me')
-      .then(({data})=> {
-        setCurrentUser(data);
-      })
-  },[])
+  useEffect(() => {
+    axiosClient.get("/me").then(({ data }) => {
+      setCurrentUser(data);
+    });
+  }, []);
   const logout = (ev) => {
     ev.preventDefault();
     axiosClient.post("/logout").then((res) => {
@@ -187,7 +187,6 @@ export default function DefaultLayout() {
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                      
                         {currentUser.name}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
@@ -222,6 +221,7 @@ export default function DefaultLayout() {
         </Disclosure>
 
         <Outlet />
+      <Toast />
       </div>
     </>
   );

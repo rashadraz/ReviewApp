@@ -8,9 +8,9 @@ import SurveyQuestion from "../components/SurveyQuestion";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
-import axios from "axios";
 
 function SurveyView() {
+  const { showToast } = useStateContext();
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -39,8 +39,15 @@ function SurveyView() {
     } else {
       res = axiosClient.post("/survey", payload);
     }
-      res.then((res) => {
+    res
+      .then((res) => {
         navigate("/surveys");
+        if(id){
+          showToast("The Survey was Updated Successfully");
+        }else{
+          showToast("The Survey was Created Successfully");
+        }
+       
       })
       .catch((err) => {
         if (err && err.response) {

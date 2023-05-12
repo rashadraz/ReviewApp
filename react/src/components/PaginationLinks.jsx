@@ -33,7 +33,7 @@ function PaginationLinks({ meta, onPageClick }) {
           </p>
         </div>
         <div>
-          {meta.total >= 10 && (
+          {meta.total > meta.per_page && (
             <nav
               className="isolate inline-flex -space-x-px rounded-md shadow-sm"
               aria-label="Pagination"
