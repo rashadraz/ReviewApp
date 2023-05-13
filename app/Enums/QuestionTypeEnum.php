@@ -2,11 +2,22 @@
 
 namespace App\Enums;
 
-enum QuestionTypeEnum: string
+class QuestionTypeEnum
 {
-    case Text = 'text';
-    case Textarea = 'textarea';
-    case Select = 'select';
-    case Radio = 'radio';
-    case Checkbox = 'checkbox';
+    public const TEXT = 'text';
+    public const TEXTAREA = 'textarea';
+    public const SELECT = 'select';
+    public const RADIO = 'radio';
+    public const CHECKBOX = 'checkbox';
+
+    public static function values()
+    {
+        return [
+            self::TEXT,
+            self::TEXTAREA,
+            self::SELECT,
+            self::RADIO,
+            self::CHECKBOX,
+        ];
+    }
 }

@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
@@ -7,7 +8,7 @@ function QuestionEditor({
   question,
   addQuestion,
   deleteQuestion,
-  questionChange 
+  questionChange,
 }) {
   const [model, setModel] = useState({ ...question });
   const { questionTypes } = useStateContext();
@@ -16,6 +17,30 @@ function QuestionEditor({
     questionChange(model);
   }, [model]);
 
+  function shouldHaveOptions(type = null) {
+    type = type || model.type;
+    return ["select", "radio", "checkbox"].includes(type);
+  }
+
+  function onTypeChange(ev) {
+    const newModel = {
+      ...model,
+      type: ev.target.value,
+    };
+    if (!shouldHaveOptions(model.type) && shouldHaveOptions(ev.target.value)) {
+      if (!model.data.options) {
+        newModel.data = {
+          options: [{ uuid: uuidv4(), text: "" }],
+        };
+      }
+    }
+    setModel(newModel);
+  }
+
+  function addOption() {
+    model.data.options.push({ uuid: uuidv4(), text: "" });
+    setModel({ ...model });
+  }
   function upperCaseFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -88,7 +113,7 @@ function QuestionEditor({
             id="questionType"
             name="questionType"
             // value={model.type}
-            onChange={(ev)=>setModel({...model , type:ev.target.value})}
+            onChange={onTypeChange}
             className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
             {questionTypes.map((type) => (
@@ -100,6 +125,30 @@ function QuestionEditor({
         </div>
         {/* Question Type */}
       </div>
+      {/* {JSON.stringify(model)}
+      <div>
+        {shouldHaveOptions() && (
+          <div>
+            <h4 className="text-sm font-semibold mb-1 flex justify-between items-center"></h4>
+            Options
+            <button
+              type="button"
+              className="flex
+                items-center
+                text-xs
+                py-1
+                px-2
+                rounded-sm
+                text-white
+                bg-gray-600
+                hover:bg-gray-700"
+            >
+              Add
+            </button>
+          </div>
+        )}
+      </div>
+      {model.type === "select" && <div>dfg</div>} */}
       {/*Description*/}
       <div className="mb-3">
         <label
@@ -120,7 +169,7 @@ function QuestionEditor({
       </div>
       {/*Description*/}
 
-      {/* <div>
+      <div>
         {shouldHaveOptions() && (
           <div>
             <h4 className="text-sm font-semibold mb-1 flex justify-between items-center ">
@@ -188,7 +237,7 @@ function QuestionEditor({
             )}
           </div>
         )}
-      </div> */}
+      </div>
       {model.type === "select" && <div></div>}
       {/* </div> */}
       <hr />
