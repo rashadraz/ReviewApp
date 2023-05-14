@@ -42,12 +42,11 @@ function SurveyView() {
     res
       .then((res) => {
         navigate("/surveys");
-        if(id){
+        if (id) {
           showToast("The Survey was Updated Successfully");
-        }else{
+        } else {
           showToast("The Survey was Created Successfully");
         }
-       
       })
       .catch((err) => {
         if (err && err.response) {
@@ -90,6 +89,8 @@ function SurveyView() {
     });
   }
 
+  const onDelete = () => {};
+
   useEffect(() => {
     if (id) {
       setLoading(true);
@@ -100,7 +101,23 @@ function SurveyView() {
     }
   }, []);
   return (
-    <PageComponent title={!id ? `Create New Survey` : "Update Survey"}>
+    <PageComponent
+      title={!id ? `Create New Survey` : "Update Survey"}
+      buttons={
+        <div className="flex gap-2">
+          <TButton color="green" href={`/survey/public/${survey.slug}`}>
+            <LinkIcon className="h-4 w-4 mr-2" />
+            Public Link
+          </TButton>
+          <TButton color="red" onClick={onDelete}>
+            <TrashIcon className="h-4 w-4 mr-2" />
+            Delete
+          </TButton>
+        </div>
+      }
+    >
+      {/* /survey/public/:slug */}
+      {/* <PageComponent title={!id ? `Create New Survey` : "Update Survey"}> */}
       {loading && <div className="text-center text-lg">Loading...</div>}
       {!loading && (
         <form action="#" method="POST" onSubmit={onSubmit}>

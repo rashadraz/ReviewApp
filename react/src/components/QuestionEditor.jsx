@@ -41,12 +41,20 @@ function QuestionEditor({
     model.data.options.push({ uuid: uuidv4(), text: "" });
     setModel({ ...model });
   }
+
+  function deleteOption(op) {
+    model.data.options = model.data.options.filter(
+      (option) => option.uuid != op.uuid
+    );
+    setModel({ ...model });
+  }
+
   function upperCaseFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-
   return (
     <div>
+ 
       <div className="flex justify-between mb-3">
         <h4>
           {index + 1}. {model.question}
@@ -112,7 +120,7 @@ function QuestionEditor({
           <select
             id="questionType"
             name="questionType"
-            // value={model.type}
+            value={model.type}
             onChange={onTypeChange}
             className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
@@ -125,30 +133,6 @@ function QuestionEditor({
         </div>
         {/* Question Type */}
       </div>
-      {/* {JSON.stringify(model)}
-      <div>
-        {shouldHaveOptions() && (
-          <div>
-            <h4 className="text-sm font-semibold mb-1 flex justify-between items-center"></h4>
-            Options
-            <button
-              type="button"
-              className="flex
-                items-center
-                text-xs
-                py-1
-                px-2
-                rounded-sm
-                text-white
-                bg-gray-600
-                hover:bg-gray-700"
-            >
-              Add
-            </button>
-          </div>
-        )}
-      </div>
-      {model.type === "select" && <div>dfg</div>} */}
       {/*Description*/}
       <div className="mb-3">
         <label
