@@ -277,7 +277,7 @@ class SurveyController extends Controller
     public function storeAnswer(StoreSurveyAnswerRequest $request, Survey $survey)
     {
         $validated = $request->validated();
-
+ 
         $surveyAnswer = SurveyAnswer::create([
             'survey_id' => $survey->id,
             'start_date' => date('Y-m-d H:i:s'),

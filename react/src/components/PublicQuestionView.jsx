@@ -11,7 +11,7 @@ export default function PublicQuestionView({
       } else {
         selectedOptions = selectedOptions.filter(op => op != option.text)
       }
-      answerChanged(selectedOptions);
+      answerChanged(selectedOptions); 
     }
   
     return (
