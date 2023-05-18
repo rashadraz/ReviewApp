@@ -36,7 +36,7 @@ class  DashboardController extends Controller
 
         return [
             'totalSurveys' => $total,
-            'latestSurveys' => $latest ? new SurveyResourceDashboard($latest) : null,
+            'latestSurvey' => $latest ? new SurveyResourceDashboard($latest) : null,
             'totalAnswers' => $totalAnswers,
             'latestAnswers' => SurveyAnswerResource::collection($latestAnswers),
         ];
